@@ -1,0 +1,114 @@
+.custom_field {
+  --draw-duration: 0.1s;
+  --draw-color: #222;
+  --draw-line-width: 2px;
+  --draw-easing: linear;
+
+  position: relative;
+  font-size: 14px;
+  border-top: 20px solid transparent;
+  margin-bottom: 5px;
+  display: inline-block;
+  --field-padding: 12px;
+
+  & input {
+    border: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #f2f2f2;
+    padding: var(--field-padding);
+    border-radius: 3px;
+    width: 250px;
+    outline: none;
+    font-size: 14px;
+  }
+
+  & .placeholder {
+    position: absolute;
+    left: var(--field-padding);
+    width: calc(100% - (var(--field-padding) * 2));
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    top: 22px;
+    line-height: 100%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+  }
+
+  & .border {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: none;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+  }
+
+  & .border::after,
+  & .border::before {
+    content: "";
+    width: 0;
+    height: 0;
+    display: inline-block;
+    position: absolute;
+    border-radius: 3px;
+  }
+
+  & .border::before {
+    left: 0;
+    bottom: 0;
+    border-right: 0px solid var(--draw-color);
+    border-bottom: 0px solid var(--draw-color);
+    transition: border 0s linear calc(var(--draw-duration) * 4),
+      height var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 2),
+      width var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 3);
+  }
+
+  & .border::after {
+    right: 0;
+    top: 0;
+    border-left: 0px solid var(--draw-color);
+    border-top: 0px solid var(--draw-color);
+    transition: border 0s linear calc(var(--draw-duration) * 2),
+      height var(--draw-duration) var(--draw-easing),
+      width var(--draw-duration) var(--draw-easing) var(--draw-duration);
+  }
+
+  & input.dirty + .placeholder,
+  & input:focus + .placeholder,
+  & input:not(:placeholder-shown) + .placeholder {
+    top: -10px;
+    font-size: 10px;
+    color: #222;
+  }
+  & input:focus ~ .border::before,
+  & input:not(:placeholder-shown) ~ .border::before,
+  & input.dirty ~ .border::before,
+  & input:focus ~ .border::after,
+  & input:not(:placeholder-shown) ~ .border::after,
+  & input.dirty ~ .border::after {
+    width: 100%;
+    height: 100%;
+    border-width: var(--draw-line-width);
+  }
+
+  & input:not(:placeholder-shown) ~ .border::before,
+  & input.dirty ~ .border::before,
+  & input:focus ~ .border::before {
+    transition-delay: 0s, var(--draw-duration), 0s;
+  }
+
+  & input:not(:placeholder-shown) ~ .border::after,
+  & input.dirty ~ .border::after,
+  & input:focus ~ .border::after {
+    transition-delay: calc(var(--draw-duration) * 2), calc(var(--draw-duration) * 3),
+      calc(var(--draw-duration) * 2);
+  }
+}

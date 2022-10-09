@@ -1,0 +1,33 @@
+.button {
+  border: 0;
+  border-radius: 5px;
+
+  &.medium {
+    padding-inline: 20px;
+    padding-block: 5px;
+  }
+
+  &.large {
+    padding-inline: 50px;
+    padding-block: 8px;
+    font-size: 1.3rem;
+  }
+
+  &.outlined {
+    border: 10px solid;
+    &.primary {
+      border-color: var(--color-primary);
+    }
+  }
+
+  &.contained {
+    &.primary {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast_text);
+    }
+  }
+
+  &.text {
+    border: 10px solid;
+  }
+}

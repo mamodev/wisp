@@ -1,0 +1,15 @@
+.container {
+  height: 35px;
+}
+
+.bar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-white);
+  width: 100%;
+  background-color: var(--color-black);
+  padding-inline: 10px;
+  padding-block: 10px;
+}

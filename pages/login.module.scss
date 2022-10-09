@@ -1,0 +1,12 @@
+.page_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-black);
+}
+
+.form_container {
+  background-color: var(--color-white);
+  padding: 10px;
+}

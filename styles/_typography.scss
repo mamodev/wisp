@@ -1,0 +1,101 @@
+:root {
+  --bold: 600;
+  --regular: 400;
+  --thin: 200;
+}
+
+.title {
+  font-weight: var(--bold);
+  &--big {
+  }
+  &--small {
+  }
+}
+
+.subitile {
+  font-weight: var(--normal);
+
+  &--big {
+  }
+  &--small {
+  }
+}
+
+.content {
+  font-weight: var(--thin);
+
+  &--big {
+  }
+  &--small {
+  }
+}
+
+//Utils classes
+.primary {
+  color: var(--color-primary);
+  &--light {
+    color: var(--color-primary-light);
+  }
+
+  &--dark {
+    color: var(--color-primary-dark);
+  }
+  &--constrast_text {
+    color: var(--color-primary-contrast_text);
+  }
+}
+.secondary {
+  color: var(--color-secondary);
+  &--light {
+    color: var(--color-secondary-light);
+  }
+
+  &--dark {
+    color: var(--color-secondary-dark);
+  }
+  &--constrast_text {
+    color: var(--color-secondary-contrast_text);
+  }
+}
+
+.success {
+  color: var(--color-success);
+  &--light {
+    color: var(--color-success-light);
+  }
+
+  &--dark {
+    color: var(--color-success-dark);
+  }
+  &--constrast_text {
+    color: var(--color-success-contrast_text);
+  }
+}
+
+.warning {
+  color: var(--color-warning);
+  &--light {
+    color: var(--color-warning-light);
+  }
+
+  &--dark {
+    color: var(--color-warning-dark);
+  }
+  &--constrast_text {
+    color: var(--color-warning-contrast_text);
+  }
+}
+
+.error {
+  color: var(--color-error);
+  &--light {
+    color: var(--color-error-light);
+  }
+
+  &--dark {
+    color: var(--color-error-dark);
+  }
+  &--constrast_text {
+    color: var(--color-error-contrast_text);
+  }
+}

@@ -1,0 +1,40 @@
+:root {
+  //Common
+  --color-black: black;
+  --color-white: white;
+
+  //Text
+  --color-text-primary: black;
+  --color-text-secondary: rgba(0, 0, 0, 0.6);
+  --color-text-disabled: rgba(0, 0, 0, 0.38);
+
+  //Primary
+  --color-primary: blue;
+  --color-primary-light: blue;
+  --color-primary-dark: blue;
+  --color-primary-contrast_text: var(--color-white);
+
+  //Secondary
+  --color-secondary: purple;
+  --color-secondary-light: purple;
+  --color-secondary-dark: purple;
+  --color-secondary-contrast_text: var(--color-white);
+
+  //Success
+  --color-success: #2e7d32;
+  --color-success-light: #4caf50;
+  --color-success-dark: #1b5e20;
+  --color-success-contrast_text: var(--color-white);
+
+  //Warning
+  --color-warining: #ed6c02;
+  --color-warinig-light: #ff9800;
+  --color-warinig-dark: #e65100;
+  --color-warning-contrast_text: var(--color-white);
+
+  //Error
+  --color-error: #d32f2f;
+  --color-error-light: #ef5350;
+  --color-error-dark: #c62828;
+  --color-error-contrast_text: var(--color-white);
+}
