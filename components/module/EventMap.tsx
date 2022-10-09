@@ -1,6 +1,5 @@
 import { Wrapper } from "@googlemaps/react-wrapper";
-import { GoogleMap, Marker } from "@react-google-maps/api";
-import React, { useMemo } from "react";
+import React from "react";
 import { GeoPoint } from "../../types/api/Location";
 import { HEX, HSL } from "../../types/Utils";
 import { hexToRgb, HSLToRGB, rgbToHex, RGBToHSL } from "../utils";
@@ -34,24 +33,6 @@ export type EventMapProps = {
   name: string;
 };
 
-class MapsPoint {
-  x: number;
-  y: number;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  equals(other: google.maps.Point) {
-    return this.x === other.x && this.y === other.y;
-  }
-
-  toString() {
-    return `[${this.x}, ${this.y}]`;
-  }
-}
-
 export default function EventMaps(props: EventMapProps) {
   return (
     <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ""}>
@@ -81,7 +62,7 @@ function Map({ primary, secondary, name, position, background }: EventMapProps) 
         strokeWeight: 2,
         strokeColor: secondary,
         scale: 1.5,
-        labelOrigin: new MapsPoint(12, -5),
+        labelOrigin: new google.maps.Point(12, -5),
       };
 
       const marker = new google.maps.Marker({
