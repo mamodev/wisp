@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { PageLayout } from "../components/layout/PageLayout";
 import EventMaps from "../components/module/EventMap";
 import Footer from "../components/module/Footer";
@@ -6,14 +6,10 @@ import { EventProvider } from "../context/EventContext";
 import { Event as EventType } from "../types/api/Event";
 import { NextPageWithLayout } from "./_app";
 import styles from "./[eventId].module.scss";
-import Button, { ButtonVariants } from "../components/base/Button";
-import { Size } from "../types/components/Utils";
-import { composeClasses } from "../components/utils";
 import useThemeColors from "../hooks/useThemeColors";
 import Image from "next/image";
 import image from "../public/event.jpg";
-import { GetStaticProps } from "next";
-import { AuthContext, axiosJson, useAuth } from "../context/AuthContext";
+import { axiosJson } from "../context/AuthContext";
 import PrenotationButton from "../components/module/PrenotationButton";
 
 type EventPageProps = {
@@ -76,14 +72,14 @@ Event.getLayout = function getLayout(page: React.ReactElement) {
   return <PageLayout>{page}</PageLayout>;
 };
 
-// export async function getStaticPaths() {
-//   return {
-//     paths: [{ params: { eventId: "wildest-party" } }],
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { eventId: "wildest-party" } }],
+    fallback: false,
+  };
+}
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const response = await axiosJson.get("event/a5c18b4c-0560-47db-8a45-66afaa6dd33a");
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
