@@ -92,3 +92,10 @@ export function getCssColor(color: Colors): string {
 export function cssUm(val: string | number | undefined) {
   return typeof val === "number" ? `${val}px` : val;
 }
+
+export function isValidEmail(email: string): boolean {
+  var emailReg = new RegExp(
+    /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+  );
+  return emailReg.test(email);
+}

@@ -4,11 +4,24 @@
   --thin: 200;
 }
 
+.logo {
+  font-family: "Inspiration", cursive;
+  font-size: 1.8rem;
+
+  &.big {
+    font-size: 3.5rem;
+  }
+}
+
 .title {
   font-weight: var(--bold);
-  &--big {
+  font-size: 1.8rem;
+
+  &.big {
+    font-size: 2rem;
   }
-  &--small {
+  &.small {
+    font-size: 1.5rem;
   }
 }
 
@@ -22,11 +35,13 @@
 }
 
 .content {
-  font-weight: var(--thin);
+  font-weight: var(--regular);
 
   &--big {
   }
-  &--small {
+
+  &.small {
+    font-size: 0.8rem;
   }
 }
 

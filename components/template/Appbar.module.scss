@@ -9,7 +9,10 @@
   justify-content: space-between;
   color: var(--color-white);
   width: 100%;
-  background-color: var(--color-black);
-  padding-inline: 10px;
+  height: 48px;
+  background-color: black;
+  padding-left: 12px;
+  padding-right: 10px;
   padding-block: 10px;
+  z-index: 100;
 }

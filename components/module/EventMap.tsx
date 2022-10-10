@@ -41,7 +41,7 @@ export default function EventMaps(props: EventMapProps) {
   );
 }
 
-function Map({ primary, secondary, name, position, background }: EventMapProps) {
+function Map({ primary, secondary, name, position, background, height = 200 }: EventMapProps) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -72,10 +72,14 @@ function Map({ primary, secondary, name, position, background }: EventMapProps) 
         icon: markerImage,
       });
     }
-  }, []);
+  }, [name, position, primary, secondary]);
 
   return (
-    <div ref={ref} id="map" style={{ height: "200px", width: "100%", backgroundColor: "white" }} />
+    <div
+      ref={ref}
+      id="map"
+      style={{ height: `${height}px`, width: "100%", backgroundColor: "white" }}
+    />
   );
 }
 

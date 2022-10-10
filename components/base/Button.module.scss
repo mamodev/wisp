@@ -1,33 +1,52 @@
 .button {
   border: 0;
   border-radius: 5px;
+  flex: 1;
 
   &.medium {
     padding-inline: 20px;
-    padding-block: 5px;
+    padding-block: 10px;
+    font-size: 1rem;
   }
 
   &.large {
     padding-inline: 50px;
     padding-block: 8px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   &.outlined {
-    border: 10px solid;
+    border: 4px solid;
+    background-color: transparent;
     &.primary {
+      &.disabled {
+        background-color: #aaa;
+      }
+      color: var(--color-primary);
       border-color: var(--color-primary);
     }
   }
 
   &.contained {
     &.primary {
+      &.disabled {
+        background-color: #aaa;
+      }
+
       background-color: var(--color-primary);
       color: var(--color-primary-contrast_text);
     }
   }
 
   &.text {
-    border: 10px solid;
+    background-color: transparent;
+    text-transform: uppercase;
+    font-weight: 600;
+    &.primary {
+      &.disabled {
+        background-color: #aaa;
+      }
+      color: var(--color-primary);
+    }
   }
 }

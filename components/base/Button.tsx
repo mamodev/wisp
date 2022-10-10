@@ -33,7 +33,7 @@ export default function Button(props: ButtonProps) {
   if (disabled) classes.push(styles.disabled);
 
   return (
-    <button className={classes.join(" ")} onClick={onClick}>
+    <button className={classes.join(" ")} onClick={!disabled ? onClick : undefined}>
       {children}
     </button>
   );

@@ -1,12 +1,16 @@
 .custom_field {
   --draw-duration: 0.1s;
-  --draw-color: #222;
+  --draw-color: var(--color-primary);
   --draw-line-width: 2px;
   --draw-easing: linear;
 
+  &.error {
+    --draw-color: var(--color-error);
+  }
+
   position: relative;
   font-size: 14px;
-  border-top: 20px solid transparent;
+  border-top: 12px solid transparent;
   margin-bottom: 5px;
   display: inline-block;
   --field-padding: 12px;
@@ -28,15 +32,17 @@
   & .placeholder {
     position: absolute;
     left: var(--field-padding);
-    width: calc(100% - (var(--field-padding) * 2));
+    max-width: calc(100% - (var(--field-padding) * 2));
+    padding-inline: 2px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    top: 22px;
+    top: 20px;
     line-height: 100%;
     transform: translateY(-50%);
     color: #aaa;
     transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+    pointer-events: none;
   }
 
   & .border {
@@ -49,6 +55,7 @@
     display: flex;
     align-items: center;
     padding-left: 12px;
+    pointer-events: none;
   }
 
   & .border::after,
@@ -59,6 +66,7 @@
     display: inline-block;
     position: absolute;
     border-radius: 3px;
+    box-sizing: border-box;
   }
 
   & .border::before {
@@ -81,13 +89,19 @@
       width var(--draw-duration) var(--draw-easing) var(--draw-duration);
   }
 
+  &.error .placeholder,
   & input.dirty + .placeholder,
   & input:focus + .placeholder,
   & input:not(:placeholder-shown) + .placeholder {
-    top: -10px;
+    top: -6px;
+    left: 5px;
     font-size: 10px;
-    color: #222;
+    color: var(--draw-color);
+    z-index: 100;
   }
+
+  &.error .border::before,
+  &.error .border::after,
   & input:focus ~ .border::before,
   & input:not(:placeholder-shown) ~ .border::before,
   & input.dirty ~ .border::before,
@@ -99,12 +113,14 @@
     border-width: var(--draw-line-width);
   }
 
+  &.error .border::before,
   & input:not(:placeholder-shown) ~ .border::before,
   & input.dirty ~ .border::before,
   & input:focus ~ .border::before {
     transition-delay: 0s, var(--draw-duration), 0s;
   }
 
+  &.error .border::after,
   & input:not(:placeholder-shown) ~ .border::after,
   & input.dirty ~ .border::after,
   & input:focus ~ .border::after {

@@ -3,7 +3,7 @@ import { ReferralLink } from "./ReferralLink";
 export type EventOrganization = {
   name: string;
   img_url: string;
-  instagram_profile: string;
+  instagram_link: string;
   phone: string;
   email: string;
 };

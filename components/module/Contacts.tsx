@@ -9,11 +9,11 @@ export default function Contacts({ organization }: { organization: EventOrganiza
     <div className={styles.container}>
       <div className={styles.contact_box}>
         <PhoneIcon />
-        <p className="text text--small secondary">{organization.phone}</p>
+        <p className="text text--small secondary">+39 {organization.phone}</p>
       </div>
       <div className={styles.contact_box}>
         <EmailIcon />
-        <p className="text text--small secondary">{organization.instagram_profile}</p>
+        <p className="text text--small secondary">@{organization.instagram_link}</p>
       </div>
       <div className={styles.contact_box}>
         <InstagramIcon />
