@@ -76,14 +76,14 @@ Event.getLayout = function getLayout(page: React.ReactElement) {
   return <PageLayout>{page}</PageLayout>;
 };
 
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { eventId: "wildest-party" } }],
-    fallback: false,
-  };
-}
+// export async function getStaticPaths() {
+//   return {
+//     paths: [{ params: { eventId: "wildest-party" } }],
+//     fallback: false,
+//   };
+// }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps = async () => {
   const response = await axiosJson.get("event/a5c18b4c-0560-47db-8a45-66afaa6dd33a");
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
