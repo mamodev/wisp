@@ -92,7 +92,6 @@ export const getServerSideProps = async () => {
     "https://firebasestorage.googleapis.com/v0/b/chicalinda-535e5.appspot.com/o/Generale%2Flogo.png?alt=media&token=44590914-4ff6-4fb7-9528-06fea81c255c";
   return {
     props: { event: eventData },
-    revalidate: 10,
   };
 };
 
