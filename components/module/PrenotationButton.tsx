@@ -10,6 +10,7 @@ const defaultbookingState = { booking: false, isSuccess: false, isLoading: false
 export default function PrenotationButton({ id }: { id: string }) {
   const { auth, setAuth } = useAuth() as AuthContext;
   const router = useRouter();
+  const referral = router.query.ref;
 
   const [{ booking, isSuccess, isLoading }, setBooking] =
     React.useState<BookingState>(defaultbookingState);
@@ -34,7 +35,9 @@ export default function PrenotationButton({ id }: { id: string }) {
         axiosJson
           .post(
             `event/${id}/booking`,
-            {},
+            {
+              referral_link: referral ? referral : undefined,
+            },
             {
               headers: { Authorization: `Bearer ${auth.accessToken}` },
             }
