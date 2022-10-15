@@ -12,3 +12,14 @@
   text-align: center;
   padding-inline: 20px;
 }
+
+.result_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cameraSelect_container {
+  display: flex;
+  width: 100%;
+}

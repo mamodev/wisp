@@ -5,6 +5,7 @@ import { BrowserCodeReader, BrowserQRCodeReader, IScannerControls } from "@zxing
 import Button from "../components/base/Button";
 import Dialog from "../components/module/Dialog";
 import { PageLayout } from "../components/layout/PageLayout";
+import { Colors } from "../types/components/Utils";
 
 type CameraOptions = {
   options: MediaDeviceInfo[];
@@ -12,8 +13,16 @@ type CameraOptions = {
   error: boolean;
 };
 
+type ResultProps = {
+  first_name: string;
+  last_name: string;
+  id: string;
+  code: string;
+};
 const User: NextPageWithLayout = () => {
-  const [result, setResult] = useState("Scan");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ResultProps | null>(null);
+  const [ws, setWs] = useState<WebSocket | null>(null);
   const [cameraDialogOpen, setCameraDialogOpen] = React.useState<boolean>(false);
   const [cameraOptions, setCameraOptions] = React.useState<CameraOptions>({
     options: [],
@@ -23,6 +32,52 @@ const User: NextPageWithLayout = () => {
 
   const controlsRef = React.useRef<IScannerControls | null>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const socketRef = React.useRef<WebSocket | null>(null);
+
+  const onWebSocketOpen = React.useCallback(() => {
+    console.log("connected");
+    setWs(socketRef.current);
+  }, []);
+
+  const onWebSocketClose = React.useCallback(() => {
+    console.log("disconnected");
+    socketRef.current = null;
+    setWs(null);
+  }, []);
+
+  const onWebSocketMessage = React.useCallback((msg: MessageEvent<object>) => {
+    if (msg.data && typeof msg.data === "string") {
+      const response = JSON.parse(msg.data);
+      let data = response.data;
+      const action = response.action;
+      if (action === "scanTicket") {
+        if (data.length > 0) {
+          data = data[0];
+          setResult({ ...data, code: response.code });
+        }
+      }
+      if (action === "enterTicket") {
+        setLoading(false);
+        setResult(null);
+      }
+    }
+  }, []);
+
+  //SetUp socket
+  React.useEffect(() => {
+    const ws = new WebSocket("wss://ddlp5kien0.execute-api.eu-west-3.amazonaws.com/production");
+    ws.addEventListener("open", onWebSocketOpen);
+    ws.addEventListener("close", onWebSocketClose);
+    ws.addEventListener("message", onWebSocketMessage);
+    socketRef.current = ws;
+
+    return () => {
+      ws.close();
+      ws.removeEventListener("open", onWebSocketOpen);
+      ws.removeEventListener("close", onWebSocketClose);
+      ws.removeEventListener("message", onWebSocketMessage);
+    };
+  }, [onWebSocketClose, onWebSocketMessage, onWebSocketOpen]);
 
   React.useEffect(() => {
     const loadCameraOptions = async () => {
@@ -54,7 +109,13 @@ const User: NextPageWithLayout = () => {
           cameraOptions.selected?.deviceId,
           previewElem,
           (result, error, controls) => {
-            if (result?.getText()) alert(result?.getText());
+            if (result?.getText() && result?.getText().length === 5) {
+              if (socketRef.current) {
+                socketRef.current.send(
+                  JSON.stringify({ action: "scanTicket", code: result.getText() })
+                );
+              }
+            }
             //controls.stop();
           }
         );
@@ -88,13 +149,15 @@ const User: NextPageWithLayout = () => {
         style={{ border: "1px solid black" }}
       ></video>
 
-      <Button
-        onClick={() => {
-          setCameraDialogOpen(true);
-        }}
-      >
-        Scegli camera
-      </Button>
+      <div className={styles.cameraSelect_container}>
+        <Button
+          onClick={() => {
+            setCameraDialogOpen(true);
+          }}
+        >
+          Scegli camera
+        </Button>
+      </div>
 
       <Dialog open={cameraDialogOpen} onClose={() => setCameraDialogOpen(false)}>
         {cameraOptions.options.map((option, i) => (
@@ -110,7 +173,31 @@ const User: NextPageWithLayout = () => {
           </p>
         ))}
       </Dialog>
-      <p style={{ color: "white" }}>{result}</p>
+
+      <Dialog open={!!result}>
+        <div className={styles.result_container}>
+          <p className="title bold" style={{ textAlign: "center" }}>
+            Biglietto valido
+          </p>
+          <p className="subtitle " style={{ textAlign: "center" }}>
+            {result?.code}
+          </p>
+          <p className="subtitle" style={{ textAlign: "center" }}>
+            <span className="bold"> Nome:</span> {result?.first_name}
+          </p>
+          <p className="subtitle" style={{ textAlign: "center" }}>
+            <span className="bold"> Cognome:</span> {result?.last_name}
+          </p>
+          <Button
+            onClick={() => {
+              setResult(null);
+            }}
+          ></Button>
+          <Button color={Colors.error} onClick={() => setResult(null)}>
+            Annulla
+          </Button>
+        </div>
+      </Dialog>
     </div>
   );
 };

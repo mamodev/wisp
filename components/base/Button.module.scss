@@ -36,6 +36,14 @@
       background-color: var(--color-primary);
       color: var(--color-primary-contrast_text);
     }
+    &.error {
+      &.disabled {
+        background-color: #aaa;
+      }
+
+      background-color: var(--color-error);
+      color: var(--color-primary-contrast_text);
+    }
   }
 
   &.text {
