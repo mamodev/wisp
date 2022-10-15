@@ -6,6 +6,7 @@ import Button from "../components/base/Button";
 import Dialog from "../components/module/Dialog";
 import { PageLayout } from "../components/layout/PageLayout";
 import { Colors } from "../types/components/Utils";
+import axios from "axios";
 
 type CameraOptions = {
   options: MediaDeviceInfo[];
@@ -190,9 +191,12 @@ const User: NextPageWithLayout = () => {
           </p>
           <Button
             onClick={() => {
+              axios.get(`https://api.countapi.xyz/hit/whereisparty.it/${result?.code}`);
               setResult(null);
             }}
-          ></Button>
+          >
+            Entra
+          </Button>
           <Button color={Colors.error} onClick={() => setResult(null)}>
             Annulla
           </Button>
