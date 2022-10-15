@@ -4,6 +4,16 @@
   --thin: 200;
 }
 
+.bold {
+  font-weight: var(--bold);
+}
+.regular {
+  font-weight: var(--regular);
+}
+.thin {
+  font-weight: var(--thin);
+}
+
 .logo {
   font-family: "Inspiration", cursive;
   font-size: 1.8rem;
@@ -25,18 +35,30 @@
   }
 }
 
-.subitile {
-  font-weight: var(--normal);
+.subtitle {
+  font-weight: var(--regular);
+  font-size: 1.2rem;
 
-  &--big {
+  &.bold {
+    font-weight: var(--bold);
   }
-  &--small {
+  &.regular {
+    font-weight: var(--regular);
+  }
+  &.thin {
+    font-weight: var(--thin);
+  }
+
+  &.big {
+    font-size: 1.3rem;
+  }
+  &.small {
   }
 }
 
 .content {
   font-weight: var(--regular);
-
+  color: var(--color-text-secondary);
   &--big {
   }
 

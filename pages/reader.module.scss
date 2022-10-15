@@ -1,0 +1,14 @@
+.list {
+  padding: 10px;
+}
+
+.error_container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 20px;
+}

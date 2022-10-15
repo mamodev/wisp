@@ -31,36 +31,51 @@ export default function PrenotationButton({ id }: { id: string }) {
     if (auth.accessToken) {
       if (isSuccess && booking) router.push("/user");
       else {
-        setBooking((old) => ({ ...old, isLoading: true }));
-        axiosJson
-          .post(
-            `event/${id}/booking`,
-            {
-              referral_link: referral ? referral : undefined,
-            },
-            {
-              headers: { Authorization: `Bearer ${auth.accessToken}` },
-            }
-          )
-          .then(() => {
-            setBooking({ booking: true, isSuccess: true, isLoading: false });
-            router.push("/user");
-          })
-          .catch(console.log);
+        // TEMPORARY BLOCK
+        // setBooking((old) => ({ ...old, isLoading: true }));
+        // axiosJson
+        //   .post(
+        //     `event/${id}/booking`,
+        //     {
+        //       referral_link: referral ? referral : undefined,
+        //     },
+        //     {
+        //       headers: { Authorization: `Bearer ${auth.accessToken}` },
+        //     }
+        //   )
+        //   .then(() => {
+        //     setBooking({ booking: true, isSuccess: true, isLoading: false });
+        //     router.push("/user");
+        //   })
+        //   .catch(console.log);
       }
     }
   };
 
-  let buttonText = "Accedi per prenotare";
+  //TEMPORARY BLOCK
+  // let buttonText = "Accedi per prenotare";
+  // if (auth.accessToken) {
+  //   if (!isSuccess) buttonText = "...";
+  //   if (isSuccess && isLoading) buttonText = "Prenotazione in corso...";
+  //   if (isSuccess && booking) buttonText = "Visualizza prenotazione";
+  //   else buttonText = "Prenota";
+  // }
+
+  let buttonText = "Prenotazioni chiuse";
   if (auth.accessToken) {
     if (!isSuccess) buttonText = "...";
-    if (isSuccess && isLoading) buttonText = "Prenotazione in corso...";
+    if (isSuccess && isLoading) buttonText = "...";
     if (isSuccess && booking) buttonText = "Visualizza prenotazione";
-    else buttonText = "Prenota";
+    else buttonText = "Prenotazioni chiuse";
   }
+
   return (
     <Button
-      disabled={!auth.accessToken || (!!auth.accessToken && !isSuccess)}
+      disabled={
+        !auth.accessToken ||
+        (!!auth.accessToken && !isSuccess) ||
+        (!!auth.accessToken && isSuccess && !booking)
+      }
       onClick={buttonClickHandler}
       size={Size.large}
       variant={ButtonVariants.contained}
