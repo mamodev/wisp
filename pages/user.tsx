@@ -28,7 +28,7 @@ const User: NextPageWithLayout = () => {
     secondary: data?.event.secondary_color ? `#${data.event.secondary_color}` : undefined,
     primary_constrast_text: "black",
   });
-
+  //as
   React.useEffect(() => {
     if (auth.accessToken) {
       axiosJson
