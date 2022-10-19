@@ -65,7 +65,11 @@ const Login: NextPageWithLayout = () => {
       })
       .then((response) => {
         setRequest({ isLoading: false, isError: false });
-        setAuth((old) => ({ ...old, accessToken: response.data?.access_token }));
+        setAuth((old) => ({
+          ...old,
+          accessToken: response.data?.access_token,
+          refreshToken: response.data?.refresh_token,
+        }));
 
         if (router.query.next && !Array.isArray(router.query.next)) {
           router.push(router.query.next);
@@ -93,7 +97,11 @@ const Login: NextPageWithLayout = () => {
       .post("registration", data)
       .then((response) => {
         setRequest({ isLoading: false, isError: false });
-        setAuth((old) => ({ ...old, accessToken: response.data?.access_token }));
+        setAuth((old) => ({
+          ...old,
+          accessToken: response.data?.access_token,
+          refreshToken: response.data?.refresh_token,
+        }));
 
         if (router.query.next && !Array.isArray(router.query.next)) {
           router.push(router.query.next);

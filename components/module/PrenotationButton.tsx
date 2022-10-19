@@ -1,16 +1,22 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { AuthContext, axiosJson, useAuth } from "../../context/AuthContext";
+import { Event } from "../../types/api/Event";
+import { Booking } from "../../types/api/Booking";
 import { Size } from "../../types/components/Utils";
 import Button, { ButtonProps, ButtonVariants } from "../base/Button";
 
 type BookingState = { booking: boolean; isSuccess: boolean; isLoading: boolean };
 const defaultbookingState = { booking: false, isSuccess: false, isLoading: false };
 
-export default function PrenotationButton({ id }: { id: string }) {
+export default function PrenotationButton({ event }: { event: Event }) {
   const { auth, setAuth } = useAuth() as AuthContext;
   const router = useRouter();
   const referral = router.query.ref;
+
+  const canBook =
+    new Date(event.open_date).getTime() < new Date().getTime() &&
+    new Date().getTime() < new Date(event.close_date).getTime();
 
   const [{ booking, isSuccess, isLoading }, setBooking] =
     React.useState<BookingState>(defaultbookingState);
@@ -21,52 +27,48 @@ export default function PrenotationButton({ id }: { id: string }) {
       axiosJson
         .get("user/booking", { headers: { Authorization: `Bearer ${auth.accessToken}` } })
         .then((response) => {
-          setBooking({ booking: response.data !== "", isSuccess: true, isLoading: false });
+          if (!response.data || response.data === " ") {
+            console.log("no booking");
+            setBooking({ booking: false, isSuccess: true, isLoading: false });
+          } else response.data;
+          const data = response?.data as Booking;
+          const hasBooking = data.event.id === event.id;
+          setBooking({ booking: hasBooking, isSuccess: true, isLoading: false });
         })
         .catch(console.log);
     }
-  }, [auth]);
+  }, [auth, event.id]);
 
   const buttonClickHandler = () => {
     if (auth.accessToken) {
       if (isSuccess && booking) router.push("/user");
-      else {
-        // TEMPORARY BLOCK
-        // setBooking((old) => ({ ...old, isLoading: true }));
-        // axiosJson
-        //   .post(
-        //     `event/${id}/booking`,
-        //     {
-        //       referral_link: referral ? referral : undefined,
-        //     },
-        //     {
-        //       headers: { Authorization: `Bearer ${auth.accessToken}` },
-        //     }
-        //   )
-        //   .then(() => {
-        //     setBooking({ booking: true, isSuccess: true, isLoading: false });
-        //     router.push("/user");
-        //   })
-        //   .catch(console.log);
+      else if (canBook) {
+        setBooking((old) => ({ ...old, isLoading: true }));
+        axiosJson
+          .post(
+            `event/${event.id}/booking`,
+            {
+              referral_link: referral ? referral : undefined,
+            },
+            {
+              headers: { Authorization: `Bearer ${auth.accessToken}` },
+            }
+          )
+          .then(() => {
+            setBooking({ booking: true, isSuccess: true, isLoading: false });
+            router.push("/user");
+          })
+          .catch(console.log);
       }
     }
   };
 
-  //TEMPORARY BLOCK
-  // let buttonText = "Accedi per prenotare";
-  // if (auth.accessToken) {
-  //   if (!isSuccess) buttonText = "...";
-  //   if (isSuccess && isLoading) buttonText = "Prenotazione in corso...";
-  //   if (isSuccess && booking) buttonText = "Visualizza prenotazione";
-  //   else buttonText = "Prenota";
-  // }
-
-  let buttonText = "Prenotazioni chiuse";
+  let buttonText = canBook ? "Accedi per prenotare" : "Prenotazioni chiuse";
   if (auth.accessToken) {
     if (!isSuccess) buttonText = "...";
-    if (isSuccess && isLoading) buttonText = "...";
+    if (isSuccess && isLoading) buttonText = "Prenotazione in corso...";
     if (isSuccess && booking) buttonText = "Visualizza prenotazione";
-    else buttonText = "Prenotazioni chiuse";
+    else buttonText = canBook ? "Prenota" : "Prenotazioni chiuse";
   }
 
   return (
@@ -74,7 +76,7 @@ export default function PrenotationButton({ id }: { id: string }) {
       disabled={
         !auth.accessToken ||
         (!!auth.accessToken && !isSuccess) ||
-        (!!auth.accessToken && isSuccess && !booking)
+        (!!auth.accessToken && isSuccess && !booking && !canBook)
       }
       onClick={buttonClickHandler}
       size={Size.large}

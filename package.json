@@ -13,6 +13,7 @@
     "@zxing/browser": "^0.1.1",
     "@zxing/library": "^0.19.1",
     "axios": "^1.1.2",
+    "bwip-js": "^3.1.0",
     "date-fns": "^2.29.3",
     "i": "^0.3.7",
     "next": "12.3.1",
@@ -24,6 +25,7 @@
     "sharp": "^0.31.1"
   },
   "devDependencies": {
+    "@types/bwip-js": "^3.0.0",
     "@types/google.maps": "^3.50.4",
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",

@@ -12,6 +12,7 @@ import React from "react";
 import { AuthContext, axiosJson, useAuth } from "../context/AuthContext";
 import { Booking } from "../types/api/Booking";
 import { Size } from "../types/components/Utils";
+import AztecCode from "../components/module/AztecCode";
 
 type BookingState = { data: Booking | null; isSuccess: boolean };
 const defaultbookingState = { data: null, isSuccess: false };
@@ -56,13 +57,20 @@ const User: NextPageWithLayout = () => {
               })}
             </h3>
           </div>
+
           <p className="content secondary">
             Grazie <span className="primary">{data.user.first_name}</span> per la tua prenotazione!
           </p>
+          <div>
+            <p className="content secondary " style={{ textAlign: "center" }}>
+              Fai uno <span className="primary">screenshot</span> di questa pagina per avere il
+              biglietto a portata di mano!
+            </p>
+          </div>
 
           <div className={styles.ticket_container}>
             <div className={styles.qr_container}>
-              <QRCode value={data.code} />
+              <AztecCode code={data.code} />
             </div>
 
             <Button onClick={() => router.push(`/wildest-party`)} size={Size.large}>

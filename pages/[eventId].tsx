@@ -28,7 +28,7 @@ const Event: NextPageWithLayout<EventPageProps> = ({ event }: EventPageProps) =>
           <Image placeholder="blur" layout="responsive" src={image} alt="main_image" />
         </div>
         <div className={styles.button_contaienr}>
-          <PrenotationButton id={event.id} />
+          <PrenotationButton event={event} />
         </div>
         <div className={styles.body}>
           <div className={styles.header}>
@@ -80,7 +80,7 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async () => {
-  const response = await axiosJson.get("event/a5c18b4c-0560-47db-8a45-66afaa6dd33a");
+  const response = await axiosJson.get("event/b5c18b4c-0560-47db-8a45-66afaa6dd33a");
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
   eventData.secondary_color = `#${eventData.secondary_color}`;

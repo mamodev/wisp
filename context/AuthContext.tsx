@@ -12,7 +12,7 @@ export const axiosForm = axios.create({
   headers: { "Content-Type": "multipart/form-data" },
 });
 
-export type AuthObject = { accessToken: string | null };
+export type AuthObject = { accessToken: string | null; refreshToken: string | null };
 export type AuthContext = {
   auth: AuthObject;
   setAuth: React.Dispatch<React.SetStateAction<AuthObject>>;
@@ -23,7 +23,7 @@ export const AuthContext = React.createContext<AuthContext | null>(null);
 type AuthProviderProps = { children: React.ReactElement };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = React.useState<AuthObject>({ accessToken: null });
+  const [auth, setAuth] = React.useState<AuthObject>({ accessToken: null, refreshToken: null });
 
   return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };

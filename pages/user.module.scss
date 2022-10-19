@@ -13,6 +13,7 @@
 .ticket_container {
   display: flex;
   flex-direction: column;
+  width: 300px;
 
   & button {
     text-transform: uppercase;
