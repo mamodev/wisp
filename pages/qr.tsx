@@ -29,16 +29,27 @@ function makeid(length: number): string {
   }
   return result;
 }
-
+const tickets = [
+  "VAJWJ",
+  "TT44I",
+  "HSCDC",
+  "7I6SC",
+  "UEDWF",
+  "V39HZ",
+  "8BXQI",
+  "IA8C4",
+  "0F2NG",
+  "5B0NP",
+  "5VGZ0",
+  "MCV61",
+  "DI3F4",
+  "3KZ5R",
+  "VLYLM",
+];
+let counter = 0;
 const User: NextPageWithLayout = () => {
-  const [code, setCode] = useState<string>("start");
+  const [code, setCode] = useState<string>(tickets[0]);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => setCode(makeid(5)), 100);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
   return (
     <div
       style={{
@@ -52,6 +63,17 @@ const User: NextPageWithLayout = () => {
     >
       <div style={{ padding: "10px", backgroundColor: "white", maxWidth: "300px" }}>
         <AztecCode code={code} />
+      </div>
+
+      <div>
+        <Button
+          onClick={() => {
+            counter++;
+            setCode(tickets[counter]);
+          }}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
