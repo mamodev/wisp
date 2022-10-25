@@ -1,16 +1,19 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { AuthContext, axiosJson, useAuth } from "../../context/AuthContext";
+import { AuthContext, useAuth } from "../../context/AuthContext";
 import { Event } from "../../types/api/Event";
 import { Booking } from "../../types/api/Booking";
 import { Size } from "../../types/components/Utils";
 import Button, { ButtonProps, ButtonVariants } from "../base/Button";
+import useAxiosAuth from "../../hooks/useAuthAxios";
 
 type BookingState = { booking: boolean; isSuccess: boolean; isLoading: boolean };
 const defaultbookingState = { booking: false, isSuccess: false, isLoading: false };
 
 export default function PrenotationButton({ event }: { event: Event }) {
   const { auth, setAuth } = useAuth() as AuthContext;
+  const axios = useAxiosAuth({});
+
   const router = useRouter();
   const referral = router.query.ref;
 
@@ -24,7 +27,7 @@ export default function PrenotationButton({ event }: { event: Event }) {
   React.useEffect(() => {
     if (auth.accessToken) {
       setBooking((old) => ({ ...old, isLoading: true }));
-      axiosJson
+      axios
         .get("user/booking", { headers: { Authorization: `Bearer ${auth.accessToken}` } })
         .then((response) => {
           if (!response.data || response.data === " ") {
@@ -37,14 +40,14 @@ export default function PrenotationButton({ event }: { event: Event }) {
         })
         .catch(console.log);
     }
-  }, [auth, event.id]);
+  }, [auth, axios, event.id]);
 
   const buttonClickHandler = () => {
     if (auth.accessToken) {
       if (isSuccess && booking) router.push("/user");
       else if (canBook) {
         setBooking((old) => ({ ...old, isLoading: true }));
-        axiosJson
+        axios
           .post(
             `event/${event.id}/booking`,
             {
@@ -71,6 +74,7 @@ export default function PrenotationButton({ event }: { event: Event }) {
     else buttonText = canBook ? "Prenota" : "Prenotazioni chiuse";
   }
 
+  console.log(canBook);
   return (
     <Button
       disabled={

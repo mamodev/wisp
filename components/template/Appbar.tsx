@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { AuthContext, axiosJson, useAuth } from "../../context/AuthContext";
+import { AuthContext, useAuth } from "../../context/AuthContext";
+import useAxiosAuth from "../../hooks/useAuthAxios";
 import Button, { ButtonVariants } from "../base/Button";
 import styles from "./Appbar.module.scss";
 
@@ -10,11 +11,12 @@ const Appbar = (): JSX.Element => {
   } = useAuth() as AuthContext;
 
   const router = useRouter();
+  const axios = useAxiosAuth({});
 
   const buttonClickHandler = () => {
     if (!accessToken) router.push(`/login?next=${router.asPath}`);
     else
-      axiosJson
+      axios
         .get("logout", { headers: { Authorization: `Bearer ${accessToken}` } })
         .then(() => setAuth((old) => ({ ...old, accessToken: null })))
         .catch(console.log);

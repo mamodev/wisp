@@ -9,10 +9,11 @@ import ColoredLogo from "../components/module/ColoredLogo";
 import Button, { ButtonVariants } from "../components/base/Button";
 import { useRouter } from "next/router";
 import React from "react";
-import { AuthContext, axiosJson, useAuth } from "../context/AuthContext";
+import { AuthContext, useAuth } from "../context/AuthContext";
 import { Booking } from "../types/api/Booking";
 import { Size } from "../types/components/Utils";
 import AztecCode from "../components/module/AztecCode";
+import useAxiosAuth from "../hooks/useAuthAxios";
 
 type BookingState = { data: Booking | null; isSuccess: boolean };
 const defaultbookingState = { data: null, isSuccess: false };
@@ -21,6 +22,7 @@ const User: NextPageWithLayout = () => {
   const router = useRouter();
 
   const { auth } = useAuth() as AuthContext;
+  const axiosJson = useAxiosAuth({});
   const [{ data, isSuccess }, setBooking] = React.useState<BookingState>(defaultbookingState);
 
   useThemeColors({

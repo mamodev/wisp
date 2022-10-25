@@ -5,7 +5,8 @@ import Button from "../components/base/Button";
 import TextField from "../components/base/TextField";
 import React, { useState } from "react";
 import { isValidEmail } from "../components/utils";
-import { AuthContext, axiosForm, axiosJson, useAuth } from "../context/AuthContext";
+import { AuthContext, useAuth } from "../context/AuthContext";
+import useAxiosAuth from "../hooks/useAuthAxios";
 
 type FieldValue = { value: string; error: string | boolean };
 type FieldState = {
@@ -42,6 +43,9 @@ const Login: NextPageWithLayout = () => {
   const router = useRouter();
 
   const { setAuth } = useAuth() as AuthContext;
+
+  const axiosJson = useAxiosAuth({});
+  const axiosForm = useAxiosAuth({ type: "form" });
 
   const [page, setPage] = React.useState<string>("register");
   const [{ isLoading, isError }, setRequest] = React.useState<{

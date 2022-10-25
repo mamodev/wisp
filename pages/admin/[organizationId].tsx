@@ -8,6 +8,7 @@ type OragnizationPageProps = { organization: Organization };
 const OrganizationPage: NextPageWithLayout<OragnizationPageProps> = ({
   organization,
 }: OragnizationPageProps) => {
+  console.log(organization);
   return <></>;
 };
 
