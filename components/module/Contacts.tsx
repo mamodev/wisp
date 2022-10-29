@@ -3,7 +3,7 @@ import { EmailIcon } from "../base/icons/EmailIcon";
 import { InstagramIcon } from "../base/icons/InstagramIcon";
 import { PhoneIcon } from "../base/icons/PhoneIcon";
 import styles from "./Contacts.module.scss";
-
+//
 export default function Contacts({ organization }: { organization: EventOrganization }) {
   return (
     <div className={styles.container}>
