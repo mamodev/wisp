@@ -80,7 +80,7 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async () => {
-  const response = await axiosJson.get("event/57498cec-8c1c-40ad-aa4f-5f8b546f6f27");
+  const response = await axiosJson.get("event/6da0fc6b-6046-45d4-826e-767326179320");
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
   eventData.secondary_color = `#${eventData.secondary_color}`;
