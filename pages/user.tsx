@@ -42,7 +42,7 @@ const User: NextPageWithLayout = () => {
         })
         .catch(console.log);
     }
-  }, [auth]);
+  }, [auth, axiosJson]);
 
   console.log(data);
   return (
