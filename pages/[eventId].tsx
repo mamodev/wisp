@@ -16,8 +16,13 @@ type EventPageProps = {
   event: EventType;
 };
 
-const Event: NextPageWithLayout<EventPageProps> = ({ event }: EventPageProps) => {
-  useThemeColors({ primary: event.primary_color, secondary: event.secondary_color });
+const Event: NextPageWithLayout<EventPageProps> = ({
+  event,
+}: EventPageProps) => {
+  useThemeColors({
+    primary: event.primary_color,
+    secondary: event.secondary_color,
+  });
 
   const eventDate = new Date(event.date);
 
@@ -25,7 +30,12 @@ const Event: NextPageWithLayout<EventPageProps> = ({ event }: EventPageProps) =>
     <EventProvider event={event}>
       <div className={styles.page_container}>
         <div className={styles.image_container}>
-          <Image placeholder="blur" layout="responsive" src={image} alt="main_image" />
+          <Image
+            placeholder="blur"
+            layout="responsive"
+            src={image}
+            alt="main_image"
+          />
         </div>
         <div className={styles.button_contaienr}>
           <PrenotationButton event={event} />
@@ -80,7 +90,9 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async () => {
-  const response = await axiosJson.get("event/cfbdf76b-7c5f-482f-a71d-53fb4433908d");
+  const response = await axiosJson.get(
+    "event/2ab6c479-4856-4e90-99ba-e91c0295fdc7"
+  );
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
   eventData.secondary_color = `#${eventData.secondary_color}`;
