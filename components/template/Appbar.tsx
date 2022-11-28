@@ -14,9 +14,14 @@ export default function Appbar() {
     if (!auth.accessToken) router.push(`/login?next=${router.asPath}`);
     else
       axios
-        .get("logout", { headers: { Authorization: `Bearer ${auth.accessToken}` } })
+        .get("logout", {
+          headers: { Authorization: `Bearer ${auth.accessToken}` },
+        })
         .then(() => setAuth((old) => ({ ...old, accessToken: null })))
-        .catch(console.log);
+        .catch((err) => {
+          console.log(err);
+          setAuth((old) => ({ ...old, accessToken: null }));
+        });
   };
 
   return (

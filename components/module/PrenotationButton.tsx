@@ -7,8 +7,16 @@ import { Size } from "../../types/components/Utils";
 import Button, { ButtonProps, ButtonVariants } from "../base/Button";
 import useAxiosAuth from "../../hooks/useAuthAxios";
 
-type BookingState = { booking: boolean; isSuccess: boolean; isLoading: boolean };
-const defaultbookingState = { booking: false, isSuccess: false, isLoading: false };
+type BookingState = {
+  booking: boolean;
+  isSuccess: boolean;
+  isLoading: boolean;
+};
+const defaultbookingState = {
+  booking: false,
+  isSuccess: false,
+  isLoading: false,
+};
 
 export default function PrenotationButton({ event }: { event: Event }) {
   const { auth, setAuth } = useAuth() as AuthContext;
@@ -28,7 +36,9 @@ export default function PrenotationButton({ event }: { event: Event }) {
     if (auth.accessToken) {
       setBooking((old) => ({ ...old, isLoading: true }));
       axios
-        .get("user/booking", { headers: { Authorization: `Bearer ${auth.accessToken}` } })
+        .get("user/booking", {
+          headers: { Authorization: `Bearer ${auth.accessToken}` },
+        })
         .then((response) => {
           if (!response.data || response.data === " ") {
             console.log("no booking");
@@ -36,7 +46,11 @@ export default function PrenotationButton({ event }: { event: Event }) {
           } else response.data;
           const data = response?.data as Booking;
           const hasBooking = data.event.id === event.id;
-          setBooking({ booking: hasBooking, isSuccess: true, isLoading: false });
+          setBooking({
+            booking: hasBooking,
+            isSuccess: true,
+            isLoading: false,
+          });
         })
         .catch(console.log);
     }
@@ -73,8 +87,7 @@ export default function PrenotationButton({ event }: { event: Event }) {
     if (isSuccess && booking) buttonText = "Visualizza prenotazione";
     else buttonText = canBook ? "Prenota" : "Prenotazioni chiuse";
   }
-
-  console.log(canBook);
+  console.log(auth.accessToken, isSuccess, booking, canBook);
   return (
     <Button
       disabled={
