@@ -24,7 +24,10 @@ const defaultState: FieldState = {
 
 const loginClickable = (fields: FieldState, page: string) =>
   page !== "login" ||
-  (fields.password.value && !fields.password.error && fields.email.value && !fields.email.error);
+  (fields.password.value &&
+    !fields.password.error &&
+    fields.email.value &&
+    !fields.email.error);
 
 const registerClickable = (fields: FieldState, page: string) =>
   page !== "register" ||
@@ -79,7 +82,9 @@ const Login: NextPageWithLayout = () => {
           router.push(router.query.next);
         }
       })
-      .catch((error) => setRequest({ isLoading: false, isError: error.response.data.detail }));
+      .catch((error) =>
+        setRequest({ isLoading: false, isError: error.response.data.detail })
+      );
   };
 
   const registerClickHandler = () => {
@@ -111,17 +116,25 @@ const Login: NextPageWithLayout = () => {
           router.push(router.query.next);
         }
       })
-      .catch((error) => setRequest({ isLoading: false, isError: error.response.data.detail }));
+      .catch((error) =>
+        setRequest({ isLoading: false, isError: error.response.data.detail })
+      );
   };
 
   const loginButton = (
-    <Button disabled={!loginClickable(field, page) || isLoading} onClick={loginClickHandler}>
+    <Button
+      disabled={!loginClickable(field, page) || isLoading}
+      onClick={loginClickHandler}
+    >
       Accedi
     </Button>
   );
 
   const registerButton = (
-    <Button disabled={!registerClickable(field, page) || isLoading} onClick={registerClickHandler}>
+    <Button
+      disabled={!registerClickable(field, page) || isLoading}
+      onClick={registerClickHandler}
+    >
       Registrati
     </Button>
   );
@@ -163,7 +176,10 @@ const Login: NextPageWithLayout = () => {
               onChange={(e) =>
                 setField((old) => ({
                   ...old,
-                  email: { value: e.target.value, error: !isValidEmail(e.target.value) },
+                  email: {
+                    value: e.target.value,
+                    error: !isValidEmail(e.target.value),
+                  },
                 }))
               }
             />
@@ -175,7 +191,10 @@ const Login: NextPageWithLayout = () => {
               onChange={(e) =>
                 setField((old) => ({
                   ...old,
-                  password: { value: e.target.value, error: e.target.value.length < 5 },
+                  password: {
+                    value: e.target.value,
+                    error: e.target.value.length < 5,
+                  },
                 }))
               }
             />
@@ -192,7 +211,10 @@ const Login: NextPageWithLayout = () => {
               onChange={(e) =>
                 setField((old) => ({
                   ...old,
-                  email: { value: e.target.value, error: !isValidEmail(e.target.value) },
+                  email: {
+                    value: e.target.value,
+                    error: !isValidEmail(e.target.value),
+                  },
                 }))
               }
             />
@@ -204,7 +226,10 @@ const Login: NextPageWithLayout = () => {
               onChange={(e) =>
                 setField((old) => ({
                   ...old,
-                  password: { value: e.target.value, error: e.target.value.length < 5 },
+                  password: {
+                    value: e.target.value,
+                    error: e.target.value.length < 5,
+                  },
                 }))
               }
             />
