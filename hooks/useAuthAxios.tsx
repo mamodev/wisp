@@ -11,7 +11,10 @@ export default function useAxiosAuth({ type = "json" }: AxiosAuthHookProps) {
   const axiosInstanceRef = React.useRef<AxiosInstance>(
     axios.create({
       baseURL: BASE_URL,
-      headers: { "Content-Type": type === "json" ? "application/json" : "multipart/form-data" },
+      headers: {
+        "Content-Type":
+          type === "json" ? "application/json" : "multipart/form-data",
+      },
     })
   );
 
@@ -32,7 +35,10 @@ export default function useAxiosAuth({ type = "json" }: AxiosAuthHookProps) {
     const responseInterceptor = axiosInstance.interceptors.response.use(
       (res) => res,
       async (error) => {
-        if ((error.response.status === 422 || error.response.status === 401) && auth.refreshToken) {
+        if (
+          error.response.status === 401 ||
+          (error.response.status === 403 && auth.refreshToken)
+        ) {
           const request = error.config as AxiosRequestConfig;
 
           const refreshResponse = await axios.get(`${BASE_URL}token/refresh`, {

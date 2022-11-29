@@ -37,9 +37,9 @@ const Event: NextPageWithLayout<EventPageProps> = ({
             alt="main_image"
           />
         </div>
-        {/* <div className={styles.button_contaienr}>
+        <div className={styles.button_contaienr}>
           <PrenotationButton event={event} />
-        </div> */}
+        </div>
         <div className={styles.body}>
           <div className={styles.header}>
             <h1 className="title big upper primary">{event.name}</h1>
