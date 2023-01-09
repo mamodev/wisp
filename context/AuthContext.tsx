@@ -1,7 +1,7 @@
 import React from "react";
 import axios, { AxiosInstance } from "axios";
 
-const BASE_URL = "http://wip-env.eba-wv3fntrn.eu-west-3.elasticbeanstalk.com/";
+const BASE_URL = "https://audomia.it:8888/";
 
 export const axiosJson = axios.create({
   headers: { "Content-Type": "application/json" },
