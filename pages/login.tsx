@@ -45,7 +45,7 @@ const defaultRequestState = { isError: false, isLoading: false };
 const Login: NextPageWithLayout = () => {
   const router = useRouter();
 
-  const { setAuth } = useAuth() as AuthContext;
+  const { login } = useAuth() as AuthContext;
 
   const axiosJson = useAxiosAuth({});
   const axiosForm = useAxiosAuth({ type: "form" });
@@ -71,12 +71,9 @@ const Login: NextPageWithLayout = () => {
         password: field.password.value,
       })
       .then((response) => {
+        console.log(response);
         setRequest({ isLoading: false, isError: false });
-        setAuth((old) => ({
-          ...old,
-          accessToken: response.data?.access_token,
-          refreshToken: response.data?.refresh_token,
-        }));
+        login(response.data?.access_token, response.data?.refresh_token);
 
         if (router.query.next && !Array.isArray(router.query.next)) {
           router.push(router.query.next);
@@ -106,11 +103,7 @@ const Login: NextPageWithLayout = () => {
       .post("registration", data)
       .then((response) => {
         setRequest({ isLoading: false, isError: false });
-        setAuth((old) => ({
-          ...old,
-          accessToken: response.data?.access_token,
-          refreshToken: response.data?.refresh_token,
-        }));
+        login(response.data?.access_token, response.data?.refresh_token);
 
         if (router.query.next && !Array.isArray(router.query.next)) {
           router.push(router.query.next);

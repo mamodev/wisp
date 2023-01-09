@@ -5,7 +5,7 @@ import Button, { ButtonVariants } from "../base/Button";
 import styles from "./Appbar.module.scss";
 
 export default function Appbar() {
-  const { auth, setAuth } = useAuth() as AuthContext;
+  const { auth, logout } = useAuth() as AuthContext;
 
   const router = useRouter();
   const axios = useAxiosAuth({});
@@ -17,11 +17,7 @@ export default function Appbar() {
         .get("logout", {
           headers: { Authorization: `Bearer ${auth.accessToken}` },
         })
-        .then(() => setAuth((old) => ({ ...old, accessToken: null })))
-        .catch((err) => {
-          console.log(err);
-          setAuth((old) => ({ ...old, accessToken: null }));
-        });
+        .then(() => logout());
   };
 
   return (

@@ -7,7 +7,7 @@ const BASE_URL = "https://audomia.it:8888/";
 export type AxiosAuthHookProps = { type?: string };
 
 export default function useAxiosAuth({ type = "json" }: AxiosAuthHookProps) {
-  const { auth, setAuth } = useAuth() as AuthContext;
+  const { auth, login } = useAuth() as AuthContext;
   const axiosInstanceRef = React.useRef<AxiosInstance>(
     axios.create({
       baseURL: BASE_URL,
@@ -51,7 +51,7 @@ export default function useAxiosAuth({ type = "json" }: AxiosAuthHookProps) {
 
           if (data.access_token && typeof data.access_token === "string") {
             const accessToken: string = data.access_token;
-            setAuth((old) => ({ ...old, accessToken }));
+            if (auth.refreshToken) login(accessToken, auth.refreshToken);
 
             const headerToken = `Bearer ${accessToken}`;
             if (request.headers) request.headers["Authorization"] = headerToken;
@@ -68,7 +68,7 @@ export default function useAxiosAuth({ type = "json" }: AxiosAuthHookProps) {
       axiosInstance.interceptors.request.eject(requestInterceptor);
       axiosInstance.interceptors.response.eject(responseInterceptor);
     };
-  }, [auth.accessToken, auth.refreshToken, setAuth]);
+  }, [auth.accessToken, auth.refreshToken, login]);
 
   return axiosInstanceRef.current;
 }

@@ -18,7 +18,8 @@ export type AuthObject = {
 };
 export type AuthContext = {
   auth: AuthObject;
-  setAuth: React.Dispatch<React.SetStateAction<AuthObject>>;
+  login: (accessToken: string, refreshToken: string) => void;
+  logout: () => void;
 };
 
 export const AuthContext = React.createContext<AuthContext | null>(null);
@@ -44,18 +45,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
 
-  React.useEffect(() => {
-    if (auth.accessToken && auth.refreshToken) {
-      localStorage.setItem("access_token", auth.accessToken);
-      localStorage.setItem("refresh_token", auth.refreshToken);
-    } else {
+  const login = (accessToken: string, refreshToken: string) => {
+    setAuth((oldAuth) => {
+      localStorage.setItem("access_token", accessToken);
+      localStorage.setItem("refresh_token", refreshToken);
+      return { accessToken, refreshToken };
+    });
+  };
+
+  const logout = () => {
+    setAuth(() => {
+      console.log("logging out");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-    }
-  }, [auth.accessToken, auth.refreshToken]);
+      return { accessToken: null, refreshToken: null };
+    });
+  };
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

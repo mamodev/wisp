@@ -19,7 +19,7 @@ const defaultbookingState = {
 };
 
 export default function PrenotationButton({ event }: { event: Event }) {
-  const { auth, setAuth } = useAuth() as AuthContext;
+  const { auth, logout } = useAuth() as AuthContext;
   const axios = useAxiosAuth({});
 
   const router = useRouter();
@@ -33,17 +33,19 @@ export default function PrenotationButton({ event }: { event: Event }) {
     React.useState<BookingState>(defaultbookingState);
 
   React.useEffect(() => {
-    if (auth.accessToken) {
+    if (auth.accessToken && !isSuccess) {
       setBooking((old) => ({ ...old, isLoading: true }));
       axios
         .get("user/booking", {
           headers: { Authorization: `Bearer ${auth.accessToken}` },
         })
         .then((response) => {
-          if (!response.data || response.data === " ") {
+          if (!response.data || response.data === "") {
             console.log("no booking");
             setBooking({ booking: false, isSuccess: true, isLoading: false });
-          } else response.data;
+            return;
+          }
+
           const data = response?.data as Booking;
           const hasBooking = data.event.id === event.id;
           setBooking({
@@ -52,11 +54,12 @@ export default function PrenotationButton({ event }: { event: Event }) {
             isLoading: false,
           });
         })
-        .catch(() => {
-          setAuth({ accessToken: null, refreshToken: null });
+        .catch((err) => {
+          console.log(err);
+          logout();
         });
     }
-  }, [auth, axios, event.id, setAuth]);
+  }, [auth, axios, event.id, isSuccess, logout]);
 
   const buttonClickHandler = () => {
     if (auth.accessToken) {
@@ -89,7 +92,6 @@ export default function PrenotationButton({ event }: { event: Event }) {
     if (isSuccess && booking) buttonText = "Visualizza prenotazione";
     else buttonText = canBook ? "Prenota" : "Prenotazioni chiuse";
   }
-  console.log(auth.accessToken, isSuccess, booking, canBook);
   return (
     <Button
       disabled={
