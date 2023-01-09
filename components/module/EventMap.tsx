@@ -32,16 +32,23 @@ export type EventMapProps = {
   background?: HEX;
   name: string;
 };
-
+// process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ??
 export default function EventMaps(props: EventMapProps) {
   return (
-    <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ""}>
+    <Wrapper apiKey={"AIzaSyB4LsplwzPFVG8XAYDtVA5iAtROTFzdwpc"}>
       <Map {...props} />
     </Wrapper>
   );
 }
 
-function Map({ primary, secondary, name, position, background, height = 200 }: EventMapProps) {
+function Map({
+  primary,
+  secondary,
+  name,
+  position,
+  background,
+  height = 200,
+}: EventMapProps) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {

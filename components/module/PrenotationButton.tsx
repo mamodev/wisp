@@ -52,9 +52,11 @@ export default function PrenotationButton({ event }: { event: Event }) {
             isLoading: false,
           });
         })
-        .catch(console.log);
+        .catch(() => {
+          setAuth({ accessToken: null, refreshToken: null });
+        });
     }
-  }, [auth, axios, event.id]);
+  }, [auth, axios, event.id, setAuth]);
 
   const buttonClickHandler = () => {
     if (auth.accessToken) {
@@ -103,11 +105,3 @@ export default function PrenotationButton({ event }: { event: Event }) {
     </Button>
   );
 }
-
-// export default function PrenotationButton({ event }: { event: Event }) {
-//   return (
-//     <Button disabled={true} size={Size.large} variant={ButtonVariants.contained}>
-//       Sito in manutenzione
-//     </Button>
-//   );
-// }

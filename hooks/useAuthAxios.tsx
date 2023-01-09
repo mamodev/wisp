@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import React from "react";
 import { AuthContext, useAuth } from "../context/AuthContext";
 
-const BASE_URL = "https://whereisparty-backend.herokuapp.com/";
+const BASE_URL = "http://wip-env.eba-wv3fntrn.eu-west-3.elasticbeanstalk.com/";
 
 export type AxiosAuthHookProps = { type?: string };
 

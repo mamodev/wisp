@@ -1,7 +1,7 @@
 import React from "react";
 import axios, { AxiosInstance } from "axios";
 
-const BASE_URL = "https://whereisparty-backend.herokuapp.com/";
+const BASE_URL = "http://wip-env.eba-wv3fntrn.eu-west-3.elasticbeanstalk.com/";
 
 export const axiosJson = axios.create({
   headers: { "Content-Type": "application/json" },
@@ -12,7 +12,10 @@ export const axiosForm = axios.create({
   headers: { "Content-Type": "multipart/form-data" },
 });
 
-export type AuthObject = { accessToken: string | null; refreshToken: string | null };
+export type AuthObject = {
+  accessToken: string | null;
+  refreshToken: string | null;
+};
 export type AuthContext = {
   auth: AuthObject;
   setAuth: React.Dispatch<React.SetStateAction<AuthObject>>;
@@ -23,14 +26,21 @@ export const AuthContext = React.createContext<AuthContext | null>(null);
 type AuthProviderProps = { children: React.ReactElement };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = React.useState<AuthObject>({ accessToken: null, refreshToken: null });
+  const [auth, setAuth] = React.useState<AuthObject>({
+    accessToken: null,
+    refreshToken: null,
+  });
 
   React.useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
 
     if (accessToken && refreshToken) {
-      setAuth((old) => ({ ...old, accessToken: accessToken, refreshToken: refreshToken }));
+      setAuth((old) => ({
+        ...old,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      }));
     }
   }, []);
 
@@ -44,7 +54,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [auth.accessToken, auth.refreshToken]);
 
-  return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ auth, setAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export function useAuth() {

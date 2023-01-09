@@ -30,11 +30,16 @@
   &.contained {
     &.primary {
       &.disabled {
-        background-color: #aaa;
+        background-color: #ccc;
+        color: #444;
       }
 
-      background-color: var(--color-primary);
-      color: var(--color-primary-contrast_text);
+      // background-color: var(--color-primary);
+      // background-color: white;
+      color: var(--color-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      padding-block: 15px;
     }
     &.error {
       &.disabled {
