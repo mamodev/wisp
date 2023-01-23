@@ -1,16 +1,14 @@
 import { NextPageWithLayout } from "./_app";
 import styles from "./reader.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   BrowserAztecCodeReader,
   BrowserCodeReader,
-  BrowserQRCodeReader,
   IScannerControls,
 } from "@zxing/browser";
 import Button from "../components/base/Button";
 import Dialog from "../components/module/Dialog";
 import { PageLayout } from "../components/layout/PageLayout";
-import { Colors } from "../types/components/Utils";
 
 type CameraOptions = {
   options: MediaDeviceInfo[];
@@ -22,7 +20,8 @@ const User: NextPageWithLayout = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
-  const [cameraDialogOpen, setCameraDialogOpen] = React.useState<boolean>(false);
+  const [cameraDialogOpen, setCameraDialogOpen] =
+    React.useState<boolean>(false);
   const [cameraOptions, setCameraOptions] = React.useState<CameraOptions>({
     options: [],
     selected: null,
@@ -43,6 +42,7 @@ const User: NextPageWithLayout = () => {
     setTimeout(() => setResult(null), 1000);
   }, []);
   const onWebSocketOpen = React.useCallback(() => {
+    console.log("connesso");
     setWs(socketRef.current);
   }, []);
 
@@ -71,7 +71,9 @@ const User: NextPageWithLayout = () => {
 
   //SetUp socket
   React.useEffect(() => {
-    const ws = new WebSocket("wss://ddlp5kien0.execute-api.eu-west-3.amazonaws.com/production");
+    const ws = new WebSocket(
+      "wss://ddlp5kien0.execute-api.eu-west-3.amazonaws.com/production"
+    );
     ws.addEventListener("open", onWebSocketOpen);
     ws.addEventListener("close", onWebSocketClose);
     ws.addEventListener("message", onWebSocketMessage);
@@ -88,7 +90,8 @@ const User: NextPageWithLayout = () => {
   React.useEffect(() => {
     const loadCameraOptions = async () => {
       try {
-        const videoInputDevices = await BrowserCodeReader.listVideoInputDevices();
+        const videoInputDevices =
+          await BrowserCodeReader.listVideoInputDevices();
         setCameraOptions({
           options: videoInputDevices,
           selected: videoInputDevices?.[0],
@@ -119,7 +122,10 @@ const User: NextPageWithLayout = () => {
           cameraOptions.selected?.deviceId,
           previewElem,
           (result, error, controls) => {
-            if (result?.getText() && result?.getText() !== lastResultRef.current) {
+            if (
+              result?.getText() &&
+              result?.getText() !== lastResultRef.current
+            ) {
               lastResultRef.current = result.getText();
               if (socketRef.current) {
                 setLoading(true);
@@ -145,8 +151,12 @@ const User: NextPageWithLayout = () => {
     return (
       <div className={styles.error_container}>
         <div className="paper">
-          <p className="subtitle big bold">Impossibile accedere alla fotocamera</p>
-          <p className="content">Prova ad accedere da un altro dispositivo/browser</p>
+          <p className="subtitle big bold">
+            Impossibile accedere alla fotocamera
+          </p>
+          <p className="content">
+            Prova ad accedere da un altro dispositivo/browser
+          </p>
         </div>
       </div>
     );
@@ -155,7 +165,12 @@ const User: NextPageWithLayout = () => {
   return (
     <div className={styles.container}>
       <div style={{ position: "relative" }}>
-        <video ref={videoRef} width="100%" height="100%" style={{ border: "1px solid black" }} />
+        <video
+          ref={videoRef}
+          width="100%"
+          height="100%"
+          style={{ border: "1px solid black" }}
+        />
         {loading && (
           <div
             style={{
@@ -169,7 +184,13 @@ const User: NextPageWithLayout = () => {
               alignItems: "center",
             }}
           >
-            <div style={{ backgroundColor: "white", padding: "10px", borderRadius: "5px" }}>
+            <div
+              style={{
+                backgroundColor: "white",
+                padding: "10px",
+                borderRadius: "5px",
+              }}
+            >
               <p className="content">Caricamento...</p>
             </div>
           </div>
@@ -187,7 +208,13 @@ const User: NextPageWithLayout = () => {
               alignItems: "center",
             }}
           >
-            <div style={{ backgroundColor: "white", padding: "10px", borderRadius: "5px" }}>
+            <div
+              style={{
+                backgroundColor: "white",
+                padding: "10px",
+                borderRadius: "5px",
+              }}
+            >
               <p className="content">{result}</p>
             </div>
           </div>
@@ -204,7 +231,10 @@ const User: NextPageWithLayout = () => {
         </Button>
       </div>
 
-      <Dialog open={cameraDialogOpen} onClose={() => setCameraDialogOpen(false)}>
+      <Dialog
+        open={cameraDialogOpen}
+        onClose={() => setCameraDialogOpen(false)}
+      >
         {cameraOptions.options.map((option, i) => (
           <p
             className={styles.list}
@@ -228,13 +258,6 @@ const User: NextPageWithLayout = () => {
       >
         Send
       </Button>
-      {/* <div>
-        {result.map((time, key) => (
-          <p key={key} style={{ backgroundColor: "white", paddingBlock: "10px" }}>
-            {time}
-          </p>
-        ))}
-      </div> */}
     </div>
   );
 };
