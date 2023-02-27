@@ -59,6 +59,7 @@ const Event: NextPageWithLayout<EventPageProps> = ({
                 {line}
               </p>
             ))}
+            <p></p>
             <p className="title primary">Dove?</p>
             <p className="content secondary">
               📍 {event.location.name} {event.location.address}
@@ -91,7 +92,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async () => {
   const response = await axiosJson.get(
-    "event/990fe02b-2dc3-4dd1-9b76-ad1c0b463577"
+    "event/ad3c19e9-4a7d-49bd-8735-97e2f867c56e"
   );
   const eventData = response.data as EventType;
   eventData.primary_color = `#${eventData.primary_color}`;
