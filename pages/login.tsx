@@ -136,7 +136,9 @@ const Login: NextPageWithLayout = () => {
     <div className={styles.page_container}>
       <p className="logo big">Where is party?</p>
       <div className={styles.form_container}>
-        <p className="title small">Registrati</p>
+        <p className="title small">
+          {page === "register" ? "Registrati" : "Accedi"}
+        </p>
         {page === "register" && (
           <div className={styles.field_container}>
             <TextField
